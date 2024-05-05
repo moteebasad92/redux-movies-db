@@ -1,42 +1,39 @@
 import React from 'react';
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import { BrowserRouter as Router, Routes, Route,useLocation } from "react-router-dom";
+import '../src/assets/css/styles.css';
+import '@fontsource/open-sans/600.css'
+import "@fontsource/montserrat"
+import '@fontsource/montserrat/700.css'
+import { ChakraProvider } from '@chakra-ui/react'
+import theme from './theme'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import Details from './pages/Details';
+import FilterMoviesTV from './pages/FilterMoviesTV';
+import SearchResult from './pages/SearchResult';
 
 function App() {
+
   return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <Header />
+          <Routes>
+                <Route exact path="/" element={<Home  />} />
+                <Route exact path="/filter-movies-tv" element={<FilterMoviesTV />} />
+                <Route exact path="/details" element={<Details />} />
+                <Route exact path="/search" element={<SearchResult />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </ChakraProvider>
+    </Provider>
   );
 }
+
 
 export default App;

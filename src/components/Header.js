@@ -85,8 +85,8 @@ export default function Header() {
                 spacing={4}
                 display={{ base: 'none', md: 'flex' }}>
                   <NavLink to='/' ><span>Home</span></NavLink>
-                  <NavLink to='/filter-movies-tv' ><span>Filter Movies/TV</span></NavLink>
-                  {/* <NavLink to='/details' ><span>Details</span></NavLink> */}
+                  <NavLink to='/filter-movies' ><span>Movies</span></NavLink>
+                  <NavLink to='/project-details' ><span>Project Details</span></NavLink>
               </HStack>
             </HStack>
             <Hide below='md'>
@@ -152,8 +152,8 @@ export default function Header() {
             <Box pb={4} display={{ md: 'none' }}>
               <Stack as={'nav'} spacing={4}>
                 <NavLink to='/'>Home</NavLink>
-                <NavLink to='/filter-movies-tv'>Filter Movies/TV</NavLink>
-                {/* <NavLink to='/details'>Details</NavLink> */}
+                <NavLink to='/filter-movies'>Movies</NavLink>
+                <NavLink to='/project-details'>Project Details</NavLink>
               </Stack>
             </Box>
           ) : null}

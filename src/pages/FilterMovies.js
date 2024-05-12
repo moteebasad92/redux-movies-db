@@ -2,18 +2,20 @@ import React,{ useEffect } from 'react'
 import { Container,Flex,Box,Heading,Hide} from '@chakra-ui/react'
 import MovieCard from '../components/MovieCard'
 import { useDispatch, useSelector } from 'react-redux';
-import { STATUSES, fetchMovies,fetchByLoadMore } from '../store/moviesSlice';
+import { STATUSES, fetchMovies,fetchByLoadMore,clearMoviesState } from '../store/moviesSlice';
 import MovieCardSkeleton from '../components/MovieCardSkeleton';
 import SidebarFilters from '../components/SidebarFilters';
 
-function FilterMoviesTV() {
+function FilterMovies() {
 
     const dispatch = useDispatch();
     const { data: movies, status } = useSelector((state) => state.movies);
 
     useEffect(() => {
-      dispatch(fetchByLoadMore('trending/all/day'));
-      dispatch(fetchMovies());
+      dispatch(clearMoviesState('discover/movie'));
+      dispatch(fetchMovies('discover/movie'));
+      // dispatch(fetchByLoadMore('discover/movie'));
+      
     }, []);
 
 
@@ -23,7 +25,7 @@ function FilterMoviesTV() {
             <Flex>
                 <Hide below="md">
                     <Box flex='1' bg='#F1F2F3' pr={50}>
-                        <Heading as='h4' size='sm' mb={5} className="movie-title" color="#000">FILTERS :</Heading>
+                        <Heading as='h4' size='sm' mb={5} className="movie-title" color="#000">FILTER :</Heading>
                         <SidebarFilters />
                     </Box>
                 </Hide>
@@ -45,4 +47,4 @@ function FilterMoviesTV() {
   )
 }
 
-export default FilterMoviesTV
+export default FilterMovies

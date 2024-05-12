@@ -10,8 +10,6 @@ function Details() {
   const clickedMovie = useSelector((state) => state.movies.clickedMovie); // Get clickedId from the Redux store 
   const [genres, setGenres] = useState([]);
 
-  console.log("clickedMovie", clickedMovie)
-
   useEffect(() => {
     const fetchGenres = async () => {
       try {

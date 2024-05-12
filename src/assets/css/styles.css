@@ -113,6 +113,7 @@ body{
 .movie-card-skeleton .movie-card-skeleton-body{
     background-color: #F1F2F3 !important;
 }
+.movie-card .blank-img{height: 351px;}
 
 /* Header Filter */
 

@@ -18,25 +18,40 @@ export const moviesSlice = createSlice({
         clickedMovie: null,
         loadmore: false,
         page: 1,
+        sortBy: '',
+        isSortByInitialized: false,
     },
     reducers: {
         fetchByHeaderFilter: (state,action) => {
+            state.data = [];
             state.query = action.payload;
             state.loadmore = false;
-            console.log("MA");
+            state.isSortByInitialized = false;
         },
         fetchByLoadMore:(state,action) => {
             state.query = action.payload;
             state.loadmore = true;
             state.page += 1;
         },
+        fetchBySidebarSorting:(state,action) =>{
+            state.loadmore = true;
+            state.page = 1;
+            state.sortBy = action.payload;
+        },
         setClickedMovie: (state, action) => { 
             state.clickedMovie = action.payload;
         },
         clearMoviesState: (state,action) => {
             state.data = [];
-            state.movies.query = action.payload;
             state.status = STATUSES.LOADING;
+            state.query = action.payload;
+            state.loadmore = false;
+            state.page = 1;
+            state.sortBy = '';
+        },
+        setSortByInitialized: (state, action) => {
+            state.isSortByInitialized = action.payload;
+            state.data = [];
         },
     }, 
     extraReducers: (builder) => {
@@ -61,22 +76,25 @@ export const {
     fetchByHeaderFilter,
     fetchByHeaderType,
     fetchByLoadMore, 
+    fetchBySidebarSorting,
     setClickedMovie,
-    clearMoviesState  
+    clearMoviesState,
+    setSortByInitialized,  
 } = moviesSlice.actions
 
 export default moviesSlice.reducer
 
 
-export const fetchMovies = createAsyncThunk('movies/fetch', async (_, {getState}) => {
+export const fetchMovies = createAsyncThunk('movies/fetch', async (_, {getState,dispatch}) => {
 
     try {
 
         const state = getState();
-        console.log("state.movies.query-------",state.movies);
-
+        
         if (state.movies.query === 'popular') {
-            const combinedArray = [];
+            
+            console.log("popular.state.movies-------", state.movies);
+            let combinedArray = [];
             const [moviesRes, tvRes] = await Promise.all([
             axios.get(`${BASE_URL}movie/popular?api_key=${apiKey}`),
             axios.get(`${BASE_URL}tv/popular?api_key=${apiKey}`)
@@ -84,22 +102,49 @@ export const fetchMovies = createAsyncThunk('movies/fetch', async (_, {getState}
             const movies = moviesRes.data.results;
             const tv = tvRes.data.results;
             combinedArray = [...movies, ...tv];
-            console.log("combined----", combinedArray);
             return combinedArray;
+
+        }else if (state.movies.query === 'upcoming') {
+
+            console.log("upcoming.state.movies-------", state.movies);
+            let combinedArray = [];
+            const [moviesRes, tvRes] = await Promise.all([
+            axios.get(`${BASE_URL}movie/upcoming?api_key=${apiKey}`),
+            axios.get(`${BASE_URL}tv/on_the_air?api_key=${apiKey}`)
+            ]);
+            const movies = moviesRes.data.results;
+            const tv = tvRes.data.results;
+            combinedArray = [...movies, ...tv];
+            return combinedArray;
+
+        }else if(state.movies.query === 'discover/movie'){
+
+            console.log("discover.state.movies-------", state.movies);
+            const res = await axios.get(`${BASE_URL}${state.movies.query}?api_key=${apiKey}&region=US&page=${state.movies.page}&sort_by=${state.movies.sortBy}`);
+            let newResults = res.data.results;
+            let combinedDiscoveredMovies;
+            
+            if((state.movies.sortBy !== '' && state.movies.isSortByInitialized) || (state.movies.loadmore)){
+                console.log("1");
+                combinedDiscoveredMovies = [...state.movies.data, ...newResults];
+                // Dispatch an action to update isSortByInitialized in the reducer
+                // dispatch(setSortByInitialized(true));
+            } else {
+                console.log("2");
+                combinedDiscoveredMovies = newResults;
+            }
+
+            console.log("combinedDiscoveredMovies",combinedDiscoveredMovies);   
+            return combinedDiscoveredMovies;
+
+        }else {
+            console.log("general.state.movies-------", state.movies);
+            console.log(`${BASE_URL}${state.movies.query}?api_key=${apiKey}&region=US`);
+            const res = await axios.get(`${BASE_URL}${state.movies.query}?api_key=${apiKey}&region=US`);
+            return res.data.results;
         }
-
-        if(state.movies.loadmore){
-            console.log("loadmore clicked");
-
-            const res = await axios.get(`${BASE_URL}${state.movies.query}?api_key=${apiKey}&region=US&page=${state.movies.page}`);
-            const newResults = res.data.results;
-            const combinedResults = [...state.movies.data, ...newResults];
-            return combinedResults;
-        }
-
-        const res = await axios.get(`${BASE_URL}${state.movies.query}?api_key=${apiKey}&region=US`)
         
-        return res.data.results;
+        
 
     } catch (error) {
         console.error(error);

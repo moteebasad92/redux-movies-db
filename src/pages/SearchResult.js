@@ -17,7 +17,6 @@ function SearchResult() {
     const dispatch = useDispatch();
 
     const handleCardClick = (movie) => {
-        console.log("mediatype", movie);
         dispatch(setClickedMovie(movie)); 
     }
 

@@ -12,8 +12,9 @@ import Home from './pages/Home';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Details from './pages/Details';
-import FilterMoviesTV from './pages/FilterMoviesTV';
 import SearchResult from './pages/SearchResult';
+import FilterMovies from './pages/FilterMovies';
+import ProjectDetails from './pages/ProjectDetails';
 
 function App() {
 
@@ -24,9 +25,10 @@ function App() {
           <Header />
           <Routes>
                 <Route exact path="/" element={<Home  />} />
-                <Route exact path="/filter-movies-tv" element={<FilterMoviesTV />} />
+                <Route exact path="/filter-movies" element={<FilterMovies />} />
                 <Route exact path="/details" element={<Details />} />
                 <Route exact path="/search" element={<SearchResult />} />
+                <Route exact path="/project-details" element={<ProjectDetails />} />
           </Routes>
           <Footer />
         </Router>

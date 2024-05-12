@@ -43,14 +43,14 @@ function Movies({ currentItems,flexWidth }) {
                 {currentItems && currentItems.map((movie,index)=>(
                    
                 <Box boxShadow='xl' w={isMobile ? "48%" : `${flexWidth}`} minW="100px" bg="gray.300" mb={4} key={index} >
-                    <div>{movie.id}</div> 
                     <ChakraLink as={ReactRouterLink} to='/details' onClick={() => handleCardClick(movie)}>
                         <Card maxW='md' className='movie-card' data-id={movie.id} data-media-type={movie.media_type}>
                             <Image
                                 objectFit='cover'
-                                src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`}
+                                src={movie.poster_path ? `https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}` : require('../assets/img/blank.jpg')}
                                 alt='Chakra UI'
                                 onLoad={handleImageLoad}
+                                className={movie.poster_path ? '' : 'blank-img'}
                             />
                             <CardBody className='movie-card-body' pt={3} pb={3}>
                                 <Text fontSize='xs' className='movie-date' mb={2}>{getFullYear(movie.release_date ? movie.release_date : movie.first_air_date)}</Text>
@@ -83,8 +83,8 @@ function MovieCard({ items,flexWidth }) {
     const dispatch = useDispatch();
     
     const handleLoadMoreClick = async () => {
-        await dispatch(fetchByLoadMore('trending/all/day'));
-        dispatch(fetchMovies());
+        await dispatch(fetchByLoadMore('discover/movie'));
+        dispatch(fetchMovies('discover/movie'));
     }
 
 
@@ -94,7 +94,7 @@ function MovieCard({ items,flexWidth }) {
 
     <Movies currentItems={items} flexWidth={flexWidth} />
 
-    {location.pathname === '/filter-movies-tv' ? 
+    {location.pathname === '/filter-movies' ? 
         <Button 
         onClick={handleLoadMoreClick} 
         mt={2} size="md" width='20%' className='load-more-btn'>

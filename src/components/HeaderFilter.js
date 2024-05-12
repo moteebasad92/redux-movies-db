@@ -9,14 +9,15 @@ function HeaderFilter() {
 
     const fetchMoviesByFilter = async (filter) => {
         await dispatch(fetchByHeaderFilter(filter));
-        dispatch(clearMoviesState());
-        dispatch(fetchMovies(filter));
+        dispatch(clearMoviesState(filter));
+        dispatch(fetchMovies());
     };
 
     useEffect(() => {
-        dispatch(clearMoviesState());
-        dispatch(fetchMovies('trending/all/day'));
-    }, [dispatch]);
+        dispatch(fetchByHeaderFilter('trending/all/day'));
+        //dispatch(clearMoviesState());
+        dispatch(fetchMovies());
+    }, []);
 
   return (
     <Box>
@@ -29,6 +30,9 @@ function HeaderFilter() {
             </li>
             <li className={`filter-name ${headerFilter === "movie/now_playing" ? "active" : ""}`} data-title="In theatres"> 
                 <a onClick={() => {fetchMoviesByFilter("movie/now_playing");}}>In Theatres</a> 
+            </li> 
+            <li className={`filter-name ${headerFilter === "upcoming" ? "active" : ""}`} data-title="Upcoming"> 
+                <a onClick={() => {fetchMoviesByFilter("upcoming");}}>Upcoming</a> 
             </li>                     
         </ul>
     </Box>

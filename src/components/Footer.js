@@ -63,7 +63,7 @@ import {
       <Box
         bg={useColorModeValue('#121620', 'gray.900')}
         color={useColorModeValue('#fff', 'gray.200')}
-        className={location.pathname === '/details' ? 'fixed-footer' : ''}       
+        className={location.pathname === '/details' || location.pathname === '/project-details' ? 'fixed-footer' : ''}       
       >          
         <Box
           borderTopWidth={1}

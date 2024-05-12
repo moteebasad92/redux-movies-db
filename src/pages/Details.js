@@ -30,7 +30,7 @@ function Details() {
     <>
       <div className='c-wrap'>
         <Container maxW='4xl' bg='white' padding={4} mt={50} mb={50}>
-          <Flex alignItems='flex-start' gap='8' >
+          <Flex alignItems='flex-start' gap='8'  className='inner-wrap'>
             <Image
               objectFit='cover'
               src={`https://www.themoviedb.org/t/p/w220_and_h330_face${clickedMovie.poster_path}`}

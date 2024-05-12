@@ -64,11 +64,13 @@ export default function Header() {
     <Container maxW="10xl" bg={"#121620"}>
       <Container maxW='8xl' >
         <Box bg={useColorModeValue('#121620', 'gray.900')} className="header-box" >
-          <Show below='md'>
-              <HStack mb={4}>
-                  <Heading as='h2' size='2xl' color="#fff" style={{ fontWeight: 'bold', fontSize:'1.875rem',lineHeight:'30px' }}>
-                      Redux Movies DB
-                  </Heading>
+          <Show below='md' >
+              <HStack mb={4} className="header-main-text">
+                <ChakraLink as={ReactRouterLink} to='/'>    
+                    <Heading as='h2' size='2xl' color="#fff" style={{ fontWeight: 'bold', fontSize:'1.875rem',lineHeight:'30px' }}>
+                        Redux Movies DB
+                    </Heading>
+                </ChakraLink>    
               </HStack>
           </Show>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -91,9 +93,11 @@ export default function Header() {
             </HStack>
             <Hide below='md'>
               <HStack>
-                  <Heading as='h2' size='2xl' color="#fff" style={{ fontWeight: 'bold', fontSize:'1.875rem',lineHeight:'30px' }}>
-                      Redux Movies DB
-                  </Heading>
+                  <ChakraLink as={ReactRouterLink} to='/'> 
+                    <Heading as='h2' size='2xl' color="#fff" style={{ fontWeight: 'bold', fontSize:'1.875rem',lineHeight:'30px' }}>
+                        Redux Movies DB
+                    </Heading>
+                  </ChakraLink>
               </HStack>
             </Hide>
             <Stack spacing={4}>
@@ -149,7 +153,7 @@ export default function Header() {
           </Flex>
 
           {isOpen ? (
-            <Box pb={4} display={{ md: 'none' }}>
+            <Box pb={4} display={{ md: 'none' }} className='mobile-nav'>
               <Stack as={'nav'} spacing={4}>
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='/filter-movies'>Movies</NavLink>

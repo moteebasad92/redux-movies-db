@@ -271,5 +271,15 @@ legend {
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    .header-filters {
+        flex-wrap: wrap;
+    }
+    .mobile-nav a{color: #fff;}
+    .load-more-btn{width: 100% !important;}
+    .inner-wrap{flex-direction: column;}
+    .fixed-footer{position: relative;}
+    .header-main-text{justify-content: center;}
+    .filtermovies-flex{flex-direction: column;}
+    .sidebar-wrap{padding: 0px !important;}
 }
 

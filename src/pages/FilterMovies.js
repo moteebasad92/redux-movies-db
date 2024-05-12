@@ -22,13 +22,13 @@ function FilterMovies() {
   return (
     <>
         <Container maxW='8xl' color='white' pl={4} pr={4} mt={50} mb={30}>
-            <Flex>
-                <Hide below="md">
-                    <Box flex='1' bg='#F1F2F3' pr={50}>
+            <Flex className='filtermovies-flex'>
+                {/* <Hide below="md"> */}
+                    <Box flex='1' bg='#F1F2F3' pr={50} className='sidebar-wrap'>
                         <Heading as='h4' size='sm' mb={5} className="movie-title" color="#000">FILTER :</Heading>
                         <SidebarFilters />
                     </Box>
-                </Hide>
+                {/* </Hide> */}
                 <Box flex='3'>
                 {status === STATUSES.LOADING || status === STATUSES.ERROR ? (
                   <MovieCardSkeleton  flexWidth="23%"/>
